@@ -1,39 +1,61 @@
-1. Project Overview
+# Enterprise Repository Structure & Architecture Blueprint
 
-NexusAsset Cloud is an open-source enterprise platform designed to unify IT asset discovery, asset lifecycle management, CMDB capabilities, IT operations, and enterprise business workflows within a centralized platform. The platform integrates with Lansweeper to collect, synchronize, and manage IT asset information while providing additional enterprise capabilities for governance, compliance, reporting, billing, auditing, and operational management.
+> Document ID: NSC-REF-ERS-01  
+> Version: 1.1 (professionally formatted)  
+> Date: 2026-11-09  
+> Status: Preserved reference input for NexusServiceCloud  
+> Document type: Repository structure and architecture specification reference  
+> Source context: NexusAsset Cloud enterprise blueprint
 
-The architecture is designed to support multi-tenant SaaS, enterprise ITAM, CMDB, Lansweeper integration, asset lifecycle management, organization and tenant management, RBAC, audit trails, REST API and event-driven integrations, web and mobile applications, automated infrastructure provisioning, centralized observability, and AI-assisted development.
-1.1 Core Architectural Principles
+## Important Notice
 
-    Domain-Driven Design (DDD): Bounded contexts aligned to business capabilities, with explicit aggregates, domain events, and ubiquitous language within each context.
+This document is a **formatted reference blueprint**. It preserves the structure and architectural intent of the source material while making its status explicit for NexusServiceCloud:
 
-    Clean Architecture: Dependency inversion; domain and application layers independent of frameworks, databases, and delivery mechanisms.
+- It is **not** evidence that NexusServiceCloud has implemented the listed platform, infrastructure, CI/CD, or security assets.
+- NexusAsset/Lansweeper domain examples in the source tree are **reference examples only** and must not be copied into NexusServiceCloud scope unless explicitly approved.
+- NexusServiceCloud should adapt the organizational patterns (bounded contexts, clean architecture, contracts, governance, quality gates, observability, security) to its own `nsc_*` service-management domain.
+- Technology/version baselines listed below are **target/reference baselines** from the source document; NexusServiceCloud-specific versions require separate ADRs and compatibility validation.
 
-    Separation of Concerns: Each module owns its domain logic, data access, and API surface. No cross-module database access.
+---
 
-    SOLID Principles: Single responsibility, open/closed, Liskov substitution, interface segregation, dependency inversion.
+## 1. Project Overview
 
-    API-First Development: Contracts defined before implementation; OpenAPI 3.1 as the authoritative REST contract.
+The reference blueprint describes an open-source enterprise platform designed to unify IT asset discovery, asset lifecycle management, CMDB capabilities, IT operations, and enterprise business workflows. In the source context, it integrates with Lansweeper for asset data collection and synchronization, with additional governance, compliance, reporting, billing, auditing, and operational capabilities.
 
-    Contract-First API Design: contracts/openapi/openapi.yaml is the single source of truth for REST interfaces; generated clients are derived, never hand-maintained as independent sources.
+### 1.1 Reference Capability Goals
 
-    Secure-by-Default Architecture: Tenant isolation at the database level, defense-in-depth authorization, least-privilege database roles, and secrets management.
+| Capability | Reference goal |
+|---|---|
+| Multi-tenancy | SaaS-ready tenant isolation and tenant-aware operations. |
+| ITAM / CMDB | Asset lifecycle and configuration-management foundations. |
+| Integration | External discovery/data synchronization patterns. |
+| Governance | RBAC, audit trails, compliance controls, and policy enforcement. |
+| APIs | REST and event-driven contracts. |
+| Channels | Web and mobile application surfaces. |
+| Delivery | Infrastructure provisioning, CI/CD, and release management. |
+| Operations | Observability, backup/recovery, and incident/runbook practices. |
 
-    Database-Level Tenant Isolation: PostgreSQL Row-Level Security (RLS) enforced on every tenant-scoped table, combined with application-layer tenant filtering.
+### 1.2 Core Architectural Principles
 
-    Infrastructure as Code (IaC): Ansible playbooks, Docker Compose manifests, and version-controlled environment definitions.
+| Principle | Intent |
+|---|---|
+| Domain-Driven Design (DDD) | Align bounded contexts to business capabilities with explicit boundaries and language. |
+| Clean Architecture | Keep domain/application independent of frameworks, databases, and delivery mechanisms. |
+| Separation of concerns | Each module owns its logic and exposed interfaces; avoid hidden cross-module coupling. |
+| SOLID | Improve maintainability, testability, and controlled evolution. |
+| API-first / contract-first | Define contracts before implementation; generated clients are derived artifacts. |
+| Secure by default | Defense-in-depth authorization, least privilege, and tenant isolation. |
+| Database-level tenant isolation | Apply tenant context and data controls (e.g., RLS where applicable) as part of defense in depth. |
+| Infrastructure as Code | Version-controlled infrastructure, deployment, and environment definitions. |
+| Automated quality gates | Linting, typing, tests, scans, and release checks in CI/CD. |
+| Observable & recoverable systems | Metrics, logs, traces, SLOs, backups, and disaster-recovery procedures. |
+| Documentation-driven engineering | ADRs, runbooks, contracts, and traceability maintained with change. |
 
-    Automated Testing and Quality Gates: Unit, integration, contract, security, architecture, E2E, performance, and resilience tests enforced in CI.
+---
 
-    Continuous Integration and Continuous Deployment (CI/CD): Jenkins-based pipelines with automated quality gates, security scanning, and release management.
+## 2. Complete Repository Structure (Reference)
 
-    Observable and Recoverable Systems: OpenTelemetry instrumentation, Prometheus metrics, Loki logs, Tempo traces, Grafana dashboards, and documented disaster recovery procedures.
-
-    Documentation-Driven Engineering: Architecture Decision Records (ADRs), runbooks, API contracts, and operational documentation maintained alongside code.
-
-2. Complete Repository Structure
-text
-
+```text
 nexusasset-cloud/
 │
 ├── README.md
@@ -69,47 +91,11 @@ nexusasset-cloud/
 │
 ├── project-meta/
 │   ├── governance/
-│   │   ├── project-charter.md
-│   │   ├── engineering-principles.md
-│   │   ├── architecture-governance.md
-│   │   ├── coding-standards.md
-│   │   ├── documentation-standards.md
-│   │   ├── change-management.md
-│   │   ├── release-governance.md
-│   │   └── quality-gates.md
-│   │
 │   ├── policies/
-│   │   ├── security-policy.md
-│   │   ├── privacy-policy.md
-│   │   ├── data-classification.md
-│   │   ├── retention-policy.md
-│   │   ├── backup-policy.md
-│   │   ├── dependency-policy.md
-│   │   ├── access-control-policy.md
-│   │   └── tenant-isolation-policy.md
-│   │
 │   ├── adr/
-│   │   ├── README.md
-│   │   └── templates/adr-template.md
-│   │
 │   ├── standards/
-│   │   ├── api-standards.md
-│   │   ├── database-standards.md
-│   │   ├── frontend-standards.md
-│   │   ├── backend-standards.md
-│   │   ├── devops-standards.md
-│   │   └── testing-standards.md
-│   │
 │   ├── runtime/
-│   │   ├── supported-versions.md
-│   │   ├── compatibility-matrix.md
-│   │   └── dependency-lifecycle.md
-│   │
 │   └── templates/
-│       ├── adr-template.md
-│       ├── feature-template.md
-│       ├── incident-template.md
-│       └── release-template.md
 │
 ├── docs/
 │   ├── 00-overview/
@@ -137,804 +123,260 @@ nexusasset-cloud/
 │   └── 22-appendices/
 │
 ├── prompts/
-│   ├── 00-global-context.md
-│   ├── 01-foundation.md
-│   ├── 02-domain-analysis.md
-│   ├── 03-backend-clean-architecture.md
-│   ├── 04-database-multitenancy.md
-│   ├── 05-api-openapi.md
-│   ├── 06-lansweeper-integration.md
-│   ├── 07-frontend-nextjs.md
-│   ├── 08-design-system.md
-│   ├── 09-mobile.md
-│   ├── 10-event-driven-architecture.md
-│   ├── 11-testing-quality.md
-│   ├── 12-security.md
-│   ├── 13-devops-infrastructure.md
-│   ├── 14-cicd-automation.md
-│   ├── 15-observability.md
-│   ├── 16-backup-disaster-recovery.md
-│   ├── 17-performance-optimization.md
-│   ├── 18-documentation-adr.md
-│   ├── 19-release-deployment.md
-│   └── 20-final-audit.md
+│   └── 00..20 phase/discipline prompts
 │
 ├── platform/
-│   │
 │   ├── backend/
-│   │   ├── manage.py
-│   │   ├── pyproject.toml
-│   │   │
-│   │   ├── config/
-│   │   │   ├── settings/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── base.py
-│   │   │   │   ├── local.py
-│   │   │   │   ├── test.py
-│   │   │   │   ├── staging.py
-│   │   │   │   └── production.py
-│   │   │   ├── urls.py
-│   │   │   ├── asgi.py
-│   │   │   ├── wsgi.py
-│   │   │   ├── celery.py
-│   │   │   └── logging.py
-│   │   │
-│   │   ├── contexts/
-│   │   │   ├── core/
-│   │   │   ├── accounts/
-│   │   │   ├── identity/
-│   │   │   ├── tenants/
-│   │   │   ├── organizations/
-│   │   │   ├── assets/
-│   │   │   ├── asset_lifecycle/
-│   │   │   ├── lansweeper/
-│   │   │   ├── integrations/
-│   │   │   ├── billing/
-│   │   │   ├── subscriptions/
-│   │   │   ├── notifications/
-│   │   │   ├── audit/
-│   │   │   ├── reporting/
-│   │   │   └── compliance/
-│   │   │
-│   │   ├── shared/
-│   │   │   ├── kernel/
-│   │   │   ├── exceptions/
-│   │   │   ├── events/
-│   │   │   ├── permissions/
-│   │   │   ├── tenant_context/
-│   │   │   ├── observability/
-│   │   │   └── utilities/
-│   │   │
-│   │   └── tests/
-│   │       ├── unit/
-│   │       ├── integration/
-│   │       ├── security/
-│   │       ├── architecture/
-│   │       └── factories/
-│   │
 │   ├── frontend/
-│   │   ├── next.config.ts
-│   │   ├── tsconfig.json
-│   │   ├── eslint.config.mjs
-│   │   ├── components.json
-│   │   ├── package.json
-│   │   ├── public/
-│   │   │
-│   │   └── src/
-│   │       ├── app/
-│   │       │   ├── (public)/
-│   │       │   ├── (auth)/
-│   │       │   ├── (dashboard)/
-│   │       │   │   ├── dashboard/
-│   │       │   │   ├── assets/
-│   │       │   │   ├── tenants/
-│   │       │   │   ├── organizations/
-│   │       │   │   ├── lansweeper/
-│   │       │   │   ├── integrations/
-│   │       │   │   ├── billing/
-│   │       │   │   ├── subscriptions/
-│   │       │   │   ├── audit/
-│   │       │   │   ├── compliance/
-│   │       │   │   ├── reports/
-│   │       │   │   ├── notifications/
-│   │       │   │   ├── settings/
-│   │       │   │   └── profile/
-│   │       │   ├── api/
-│   │       │   │   ├── auth/
-│   │       │   │   ├── proxy/
-│   │       │   │   └── health/
-│   │       │   ├── layout.tsx
-│   │       │   ├── page.tsx
-│   │       │   ├── globals.css
-│   │       │   ├── error.tsx
-│   │       │   ├── not-found.tsx
-│   │       │   └── loading.tsx
-│   │       │
-│   │       ├── proxy.ts
-│   │       │
-│   │       ├── components/
-│   │       │   ├── ui/
-│   │       │   ├── layout/
-│   │       │   ├── forms/
-│   │       │   ├── tables/
-│   │       │   ├── charts/
-│   │       │   ├── feedback/
-│   │       │   ├── navigation/
-│   │       │   └── providers/
-│   │       │
-│   │       ├── features/
-│   │       │   ├── auth/
-│   │       │   ├── assets/
-│   │       │   ├── tenants/
-│   │       │   ├── organizations/
-│   │       │   ├── lansweeper/
-│   │       │   ├── integrations/
-│   │       │   ├── billing/
-│   │       │   ├── audit/
-│   │       │   ├── compliance/
-│   │       │   └── reporting/
-│   │       │
-│   │       ├── lib/
-│   │       │   ├── api/
-│   │       │   ├── auth/
-│   │       │   ├── permissions/
-│   │       │   ├── validation/
-│   │       │   ├── i18n/
-│   │       │   ├── telemetry/
-│   │       │   └── utilities/
-│   │       │
-│   │       ├── hooks/
-│   │       ├── stores/
-│   │       ├── types/
-│   │       └── styles/
-│   │
 │   ├── mobile/
-│   │   ├── android/
-│   │   ├── ios/
-│   │   ├── shared-contracts/
-│   │   └── docs/
-│   │
 │   ├── packages/
-│   │   ├── ui-kit/
-│   │   ├── design-tokens/
-│   │   ├── api-client/
-│   │   ├── validators/
-│   │   ├── permissions/
-│   │   ├── telemetry/
-│   │   └── config/
-│   │
 │   └── worker/
-│       ├── tasks/
-│       ├── schedules/
-│       ├── queues/
-│       ├── monitoring/
-│       └── celery.py
 │
 ├── contracts/
 │   ├── openapi/
-│   │   ├── openapi.yaml
-│   │   ├── schemas/
-│   │   ├── paths/
-│   │   └── versions/
-│   │
 │   ├── asyncapi/
-│   │   └── asyncapi.yaml
-│   │
 │   ├── events/
-│   │   ├── asset-events/
-│   │   ├── tenant-events/
-│   │   └── integration-events/
-│   │
 │   ├── webhooks/
 │   └── generated/
-│       ├── typescript/
-│       ├── kotlin/
-│       └── swift/
 │
 ├── design-system/
-│   ├── tokens/
-│   │   ├── colors.json
-│   │   ├── typography.json
-│   │   ├── spacing.json
-│   │   ├── sizing.json
-│   │   ├── radius.json
-│   │   ├── shadows.json
-│   │   ├── breakpoints.json
-│   │   ├── z-index.json
-│   │   └── motion.json
-│   │
-│   ├── assets/
-│   │   ├── fonts/
-│   │   ├── icons/
-│   │   ├── images/
-│   │   └── illustrations/
-│   │
-│   ├── components/
-│   ├── patterns/
-│   │
-│   ├── themes/
-│   │   ├── light/
-│   │   ├── dark/
-│   │   └── high-contrast/
-│   │
-│   ├── storybook/
-│   └── docs/
-│       ├── tokens.md
-│       ├── components.md
-│       ├── patterns.md
-│       ├── accessibility.md
-│       ├── rtl-ltr.md
-│       ├── theming.md
-│       └── ai-coding-rules.md
-│
 ├── infrastructure/
-│   ├── docker/
-│   │   ├── backend.Dockerfile
-│   │   ├── frontend.Dockerfile
-│   │   ├── worker.Dockerfile
-│   │   ├── scheduler.Dockerfile
-│   │   └── security-scanning.Dockerfile
-│   │
-│   ├── traefik/
-│   │   ├── traefik.yml
-│   │   ├── dynamic/
-│   │   ├── tls/
-│   │   └── middlewares/
-│   │
-│   ├── postgres/
-│   │   ├── config/
-│   │   ├── init/
-│   │   ├── extensions/
-│   │   ├── rls/
-│   │   ├── roles/
-│   │   ├── migrations/
-│   │   └── backup/
-│   │
-│   ├── redis/
-│   │   ├── config/
-│   │   └── policies/
-│   │
-│   ├── rabbitmq/
-│   │   └── config/
-│   │
-│   ├── storage/
-│   │   └── object-storage/
-│   │
-│   └── scripts/
-│       ├── health-check.sh
-│       ├── wait-for-dependencies.sh
-│       └── container-entrypoint.sh
-│
 ├── deployment/
-│   ├── ansible/
-│   │   ├── ansible.cfg
-│   │   ├── inventories/
-│   │   │   ├── dev/
-│   │   │   ├── staging/
-│   │   │   └── production/
-│   │   ├── playbooks/
-│   │   │   ├── bootstrap.yml
-│   │   │   ├── hardening.yml
-│   │   │   ├── deploy.yml
-│   │   │   ├── upgrade.yml
-│   │   │   ├── rollback.yml
-│   │   │   ├── backup.yml
-│   │   │   └── restore.yml
-│   │   └── roles/
-│   │       ├── common/
-│   │       ├── docker/
-│   │       ├── firewall/
-│   │       ├── traefik/
-│   │       ├── monitoring/
-│   │       ├── application/
-│   │       └── backup/
-│   │
-│   ├── ci-cd/
-│   │   ├── Jenkinsfile
-│   │   ├── jenkins/
-│   │   │   ├── casc/
-│   │   │   ├── shared-library/
-│   │   │   └── agents/
-│   │   ├── github/workflows/
-│   │   ├── quality-gates/
-│   │   └── release/
-│   │
-│   ├── environments/
-│   │   ├── dev/
-│   │   ├── staging/
-│   │   └── production/
-│   │
-│   └── release-management/
-│       ├── versioning.md
-│       ├── release-checklist.md
-│       ├── rollback-policy.md
-│       └── migration-policy.md
-│
 ├── security/
-│   ├── threat-model/
-│   ├── policies/
-│   ├── iam/
-│   ├── secrets-management/
-│   │   ├── sops/
-│   │   └── templates/
-│   ├── encryption/
-│   ├── certificates/
-│   ├── access-control/
-│   ├── tenant-isolation/
-│   ├── supply-chain/
-│   │   ├── sbom/
-│   │   ├── image-signing/
-│   │   └── provenance/
-│   ├── scans/
-│   ├── compliance/
-│   ├── owasp/
-│   └── incident-response/
-│
 ├── observability/
-│   ├── prometheus/
-│   ├── grafana/
-│   │   ├── dashboards/
-│   │   └── provisioning/
-│   ├── loki/
-│   ├── tempo/
-│   ├── alertmanager/
-│   ├── otel/
-│   │   ├── collector/
-│   │   ├── traces/
-│   │   └── metrics/
-│   ├── alert-rules/
-│   ├── slo-sli/
-│   └── synthetic-monitoring/
-│
 ├── ops/
-│   ├── runbooks/
-│   ├── incident-management/
-│   ├── backup-restore/
-│   ├── disaster-recovery/
-│   ├── capacity-planning/
-│   ├── maintenance/
-│   ├── database-operations/
-│   ├── certificate-renewal/
-│   ├── dependency-updates/
-│   └── service-catalog/
-│
 ├── tests/
-│   ├── architecture/
-│   ├── contract/
-│   ├── api/
-│   ├── integration/
-│   ├── e2e/
-│   ├── security/
-│   ├── performance/
-│   ├── load/
-│   ├── resilience/
-│   ├── accessibility/
-│   ├── migration/
-│   └── disaster-recovery/
-│
 ├── quality/
-│   ├── lint/
-│   ├── type-check/
-│   ├── coverage/
-│   ├── security/
-│   ├── performance-budgets/
-│   ├── dependency-audit/
-│   ├── code-quality/
-│   └── quality-gate.sh
-│
 ├── scripts/
-│   ├── bootstrap.sh
-│   ├── setup-dev.sh
-│   ├── generate-contracts.sh
-│   ├── generate-tokens.sh
-│   ├── database-migrate.sh
-│   ├── database-backup.sh
-│   ├── database-restore.sh
-│   ├── seed.py
-│   ├── release.sh
-│   ├── health-check.sh
-│   ├── security-scan.sh
-│   └── quality-gate.sh
-│
 └── archive/
-    ├── inputs/
-    ├── legacy/
-    ├── snapshots/
-    └── archive-index.md
-
-3. Technology Stack
-Layer	Technology	Responsibility
-Backend Language	Python 3.13	Application development
-Backend Framework	Django 5.2 LTS	Business logic and REST services; LTS support with CompositePrimaryKey for multi-field primary keys
-Frontend Framework	Next.js 16	Web application with App Router and React Server Components
-UI Library	React 19	Component-based UI
-Language	TypeScript	Frontend type safety
-Styling	Tailwind CSS 4	Utility-first styling
-UI Components	shadcn/ui	Reusable interface components
-Database	PostgreSQL 18	Primary relational database with RLS support
-Cache	Redis 8	Caching and background task support
-Task Processing	Celery	Asynchronous jobs
-Message Broker	RabbitMQ	Optional advanced messaging
-Monorepo	pnpm	JavaScript package management
-Build Orchestration	Turborepo	Monorepo task execution
-API Specification	OpenAPI 3.1	REST API contracts
-Event Specification	AsyncAPI	Event-driven contracts
-Android	Kotlin	Android application
-iOS	Swift	iOS application
-Containers	Docker	Application packaging
-Container Orchestration	Docker Compose	Deployment and service orchestration
-Reverse Proxy	Traefik v3	Routing and TLS
-CI/CD	Jenkins LTS	Build and delivery automation
-Infrastructure Automation	Ansible	Server provisioning and configuration
-Metrics	Prometheus	Metrics collection
-Dashboards	Grafana	Monitoring dashboards
-Logs	Loki	Centralized log aggregation
-Tracing	OpenTelemetry	Distributed observability
-Trace Storage	Tempo	Distributed trace storage
-Security Scanning	Trivy	Vulnerability scanning
-Secret Detection	Gitleaks	Secret detection
-Code Quality	SonarQube	Static analysis and code quality
-Backend Testing	Pytest	Python tests
-Frontend Testing	Vitest	JavaScript/TypeScript tests
-E2E Testing	Playwright	Browser automation
-Load Testing	k6	Performance and load tests
-Database Backup	pgBackRest / WAL-G	PostgreSQL backup and recovery
+```
+
+### 2.1 Structure Intent by Area
+
+| Area | Intent |
+|---|---|
+| `project-meta/` | Governance, policies, standards, ADR support, runtime compatibility, templates. |
+| `docs/` | End-to-end documentation from overview to operations, security, ADRs, and appendices. |
+| `prompts/` | Controlled phased execution/review instructions. |
+| `platform/` | Application implementation target (backend, frontend, mobile, packages, worker). |
+| `contracts/` | Authoritative API/event contracts and derived/generated clients. |
+| `design-system/` | Design tokens, themes, components, patterns, accessibility guidance. |
+| `infrastructure/` & `deployment/` | Runtime topology, IaC/deployment automation, environment definitions. |
+| `security/` | Threat model, IAM, secrets, tenant isolation, scans, compliance, response. |
+| `observability/` & `ops/` | Telemetry, dashboards, alerts, runbooks, backup/restore, DR, maintenance. |
+| `tests/` & `quality/` | Verification layers and quality gates. |
+| `scripts/` | Repeatable operational/developer automation entry points. |
+| `archive/` | Historical inputs and snapshots, kept out of active implementation paths. |
+
+---
+
+## 3. Technology Stack (Reference Baseline)
+
+> Compatibility requirement: versions are a target baseline, not proof of compatibility. NexusServiceCloud must validate framework/runtime/plugin compatibility and record approved versions in its own ADRs/matrices before implementation.
+
+| Layer | Reference technology | Responsibility |
+|---|---|---|
+| Backend language | Python 3.13 | Application development |
+| Backend framework | Django 5.2 LTS | Business logic and REST services |
+| Frontend framework | Next.js 16 | Web application (App Router / RSC where appropriate) |
+| UI library | React 19 | Component-based UI |
+| Frontend language | TypeScript | Type safety |
+| Styling / UI | Tailwind CSS 4, shadcn/ui | Styling and reusable components |
+| Database | PostgreSQL 18 | Primary relational data store |
+| Cache / tasks | Redis 8, Celery | Cache/background jobs |
+| Messaging (optional) | RabbitMQ | Advanced async messaging when justified |
+| JS monorepo tooling | pnpm, Turborepo | Package/build orchestration |
+| Contracts | OpenAPI 3.1, AsyncAPI | REST and event contracts |
+| Mobile | Kotlin, Swift | Native mobile clients (if adopted) |
+| Containers / edge | Docker, Docker Compose, Traefik v3 | Packaging, orchestration, routing/TLS |
+| CI/CD / automation | Jenkins LTS, Ansible | Delivery pipelines and infrastructure automation |
+| Observability | Prometheus, Grafana, Loki, OpenTelemetry, Tempo | Metrics, dashboards, logs, traces |
+| Security/quality | Trivy, Gitleaks, SonarQube | Scanning and code quality |
+| Testing | Pytest, Vitest, Playwright, k6 | Unit/integration/UI/E2E/performance |
+| DB backup | pgBackRest / WAL-G | PostgreSQL backup and recovery |
+
+---
+
+## 4. Backend Architecture Reference
+
+### 4.1 Architectural Pattern
 
-Compatibility requirement: The stack is a target baseline, not an assumption that every listed major version is automatically compatible. Verify framework support, security status, runtime requirements, and plugin compatibility before pinning versions.
-4. Backend Architecture
-4.1 Architectural Pattern
+The reference backend follows a **modular monolith** with DDD and Clean Architecture:
 
-The backend follows a Modular Monolith architecture using Domain-Driven Design (DDD), Clean Architecture, and Bounded Contexts. Each module is a DDD bounded context with clear boundaries: domain entities, value objects, application services, domain services, infrastructure adapters, API interfaces, and tests.
+- Bounded contexts with explicit module boundaries.
+- Domain entities/value objects and application/domain services.
+- Infrastructure adapters behind ports/interfaces.
+- Domain events and explicit integration contracts.
+- Avoid premature microservice decomposition; extract only with evidence.
+
+### 4.2 Reference Bounded Contexts (Source Example)
+
+The source NexusAsset example includes contexts such as core, accounts, identity, tenants, organizations, assets, asset lifecycle, Lansweeper, integrations, billing, subscriptions, notifications, audit, reporting, and compliance.
+
+### 4.3 NexusServiceCloud Context Mapping
+
+NexusServiceCloud should use its own service-management contexts (`nsc_*`) instead of NexusAsset/Lansweeper contexts. Indicative mapping:
 
-The backend avoids unnecessary microservice complexity during initial development. Modules communicate through explicit interfaces and domain events, enabling future extraction to microservices via the Strangler Fig pattern if scalability demands it.
-4.2 Bounded Contexts
-Context	Primary Responsibility
-Core	Shared application foundations, base classes, common utilities
-Accounts	User account management
-Identity	Authentication and identity
-Tenants	Multi-tenant management, tenant context
-Organizations	Organizational hierarchy
-Assets	IT asset management
-Asset Lifecycle	Asset lifecycle and ownership
-Lansweeper	Discovery integration and synchronization
-Integrations	External system connectivity
-Billing	Financial transactions and billing
-Subscriptions	Plans and subscription management
-Notifications	Email and system notifications
-Audit	Audit trails and activity tracking
-Reporting	Reports and analytical queries
-Compliance	Governance and compliance management
+| NexusServiceCloud context | Primary responsibility |
+|---|---|
+| `nsc_identity` | Identity, sessions, memberships, authorization inputs |
+| `nsc_tenants` | Organizations, sites, departments, service desks |
+| `nsc_catalog` | Services, catalog items, forms, audience |
+| `nsc_requests` | Incidents/service requests, assignment, comments, state history |
+| `nsc_service_levels` | SLA/OLA policies, calendars, escalations, measurement |
+| `nsc_approvals` | Approval policies, decisions, delegation |
+| `nsc_problems` / `nsc_changes` / `nsc_delivery` | Problem, change, release/delivery control records |
+| `nsc_assets` / `nsc_cmdb` | Asset and configuration relationships (only if in approved scope) |
+| `nsc_procurement` | Purchase/receiving/vendor/contract records related to service |
+| `nsc_knowledge` | Knowledge lifecycle and audience |
+| `nsc_integrations` | Email, monitoring, discovery connectors, field mappings |
+| `nsc_insights` | Reports/surveys/derived read models |
+| `nsc_audit` / `nsc_notifications` / `nsc_ai` | Audit, delivery, and assistive AI controls |
 
-Each context maintains strict internal structure: domain entities, value objects, application services, domain services, infrastructure adapters, API interfaces, and tests. Cross-module database access is prohibited; integration occurs via interfaces or events.
-5. Frontend Architecture
+---
 
-The frontend uses Next.js 16 App Router with React Server Components and a Turbo monorepo of @app/* packages confining backend access behind a single data-access package.
-5.1 Main Responsibilities
+## 5. Frontend Architecture Reference
 
-Public website, authentication and account interfaces, enterprise dashboard, asset management, tenant administration, organization management, Lansweeper integration, billing and subscriptions, audit and compliance, reporting and analytics, notifications, and user settings.
-5.2 Frontend Engineering Standards
+The reference frontend pattern uses a modern React application with App Router conventions, feature-oriented organization, strict typing, accessible UI, centralized validation, and generated API clients.
 
-    Feature-oriented organization: Features live in src/features/* with co-located components, hooks, and types.
+### 5.1 Frontend Standards
 
-    Reusable components: UI primitives in src/components/ui/, shared patterns in packages/ui-kit/.
+| Standard | Expected practice |
+|---|---|
+| Feature orientation | Co-locate feature UI, hooks, types, and integration boundaries. |
+| Typed contracts | Use generated or centrally maintained typed clients from authoritative contracts. |
+| Validation | Centralize request/form validation; never trust client-only checks. |
+| Accessibility | Target WCAG-oriented semantics, keyboard support, and contrast rules. |
+| Responsive/i18n | Support responsive layouts and RTL/LTR where required. |
+| Design tokens | Use a single token source; avoid hardcoded visual primitives. |
+| Security boundary | Frontend is never the final authorization boundary. |
 
-    Strict TypeScript configuration: Strict mode, no implicit any, exhaustive type checking.
+---
 
-    Consistent API client implementation: Generated from OpenAPI contracts; no hand-written fetch calls in components.
+## 6. Multi-Tenancy and Database Architecture Reference
 
-    Centralized validation: Zod schemas shared between forms and API boundaries.
+The reference design treats tenant isolation as a defense-in-depth requirement.
 
-    Accessible UI components: WCAG 2.1 AA compliance; keyboard navigation and screen reader support.
+| Control | Target behavior |
+|---|---|
+| Tenant-aware model | Tenant ownership is explicit on tenant-scoped records. |
+| Tenant context | Tenant context is set and validated per request/transaction. |
+| RLS / data controls | Data-level controls restrict cross-tenant reads/writes where applicable. |
+| Least privilege | Runtime database roles avoid unnecessary bypass privileges. |
+| Background work | Jobs/tasks propagate and validate tenant context safely. |
+| Verification | Automated tests/checklists verify cross-tenant isolation and admin exceptions. |
 
-    Responsive layouts: Mobile-first breakpoints from design tokens.
+NexusServiceCloud mapping: organizations are isolated tenants; departments and service desks inside an organization are operational scopes unless a later approved decision states otherwise.
 
-    RTL and LTR support: Full internationalization with next-intl; RTL layouts for Arabic and Hebrew.
+---
 
-    Centralized design tokens: Generated from design-system/tokens/*.json; no hardcoded colors, spacing, or typography.
+## 7. API and Integration Architecture Reference
 
-    Server-side authorization enforcement: The frontend is never the final security boundary; all sensitive authorization decisions are validated by the backend.
+### 7.1 API Standards
 
-6. Multi-Tenancy and Database Architecture
+- Contract-first REST (OpenAPI 3.1 as reference).
+- Versioning, consistent errors, pagination, filtering, sorting, validation.
+- Authentication/authorization and rate limits.
+- Idempotency for applicable operations.
+- Structured documentation and traceable changes.
 
-PostgreSQL is the primary data storage engine. The platform implements defense-in-depth tenant isolation.
-6.1 Tenant Isolation Controls
+### 7.2 Contract Source of Truth
 
-    Tenant-aware data models: Every tenant-scoped table includes a tenant_id column with a foreign key to the tenants table.
+Authoritative contracts should live in dedicated contract locations. Generated clients/types are derived artifacts and must not become independent hand-maintained sources.
 
-    Explicit tenant context: Set per transaction via SET LOCAL or set_config('app.current_tenant_id', ...).
+### 7.3 Integration Pattern
 
-    PostgreSQL Row-Level Security (RLS): Enabled and FORCED on every tenant-scoped table; policies filter by current_setting('app.current_tenant_id').
+| Concern | Practice |
+|---|---|
+| Connectivity | Explicit adapters/ports per external system. |
+| Reliability | Retries, backoff, idempotency, and reconciliation rules. |
+| Data quality | Normalization, duplicate handling, and field ownership/mapping. |
+| Failure isolation | External failures must not corrupt internal operational records. |
+| Auditability | Synchronization history and relevant events are recorded. |
 
-    Two database roles: An owner role for migrations and an application role with NOBYPASSRLS for runtime queries.
+NexusServiceCloud integrations are expected to focus on identity, email, monitoring, service-related discovery/connectors, and approved external systems—not Lansweeper by default.
 
-    Tenant-aware query filtering: Application-layer filters as the first line of defense; RLS as the second.
+---
 
-    Tenant isolation integration tests: Automated tests verify cross-tenant read and write attempts fail.
+## 8. Event-Driven Architecture Reference
 
-    Auditable tenant access: All tenant-scoped operations logged in audit trails.
+Asynchronous processing is used where it improves reliability, scalability, and responsiveness.
 
-6.2 RLS Security Requirements
+| Capability | Purpose |
+|---|---|
+| Domain/integration events | Communicate significant state changes across boundaries. |
+| Transactional outbox | Publish events reliably relative to committed state changes. |
+| Idempotent handlers | Make retries safe. |
+| Retry/DLQ policies | Handle transient and permanent processing failures. |
+| Event versioning | Support schema evolution. |
+| Monitoring/audit | Observe event flow and preserve operational evidence. |
 
-    Define explicit tenant policies on every applicable table.
+---
 
-    Apply ENABLE ROW LEVEL SECURITY and FORCE ROW LEVEL SECURITY.
+## 9. Design System Reference
 
-    Avoid application database roles with BYPASSRLS; use a non-owner app role.
+| Component | Purpose |
+|---|---|
+| Tokens | Single source for color, typography, spacing, sizing, radius, shadows, motion. |
+| Themes | Light/dark/high-contrast and brand-consistent variants. |
+| Components/patterns | Reusable accessible UI building blocks and interaction patterns. |
+| Documentation | Usage rules, accessibility, RTL/LTR, and implementation guidance. |
 
-    Set tenant context safely for each transaction; prevent leakage across pooled connections.
+---
 
-    Test cross-tenant reads, writes, aggregations, subqueries, and background jobs.
+## 10. DevOps and Infrastructure Reference
 
-    Verify administrative access paths and document intentional exceptions.
+### 10.1 Containerization and Runtime
 
-    RLS supplements application authorization; it does not replace it.
+Reference services may include API, frontend, workers/schedulers, data stores, cache/messaging, edge routing, and observability components. Production-oriented standards include health checks, explicit image versions, least privilege, resource limits, secure configuration, persistent state handling, and structured logging.
 
-6.3 Database Engineering
+### 10.2 Deployment and Automation
 
-Version-controlled migrations, explicit indexes, foreign-key integrity, appropriate unique constraints, transaction management, query optimization, database performance monitoring, backup and restore automation, and migration rollback procedures where feasible.
-7. API and Integration Architecture
-7.1 API Standards
+| Area | Reference practice |
+|---|---|
+| Docker Compose | Environment-specific orchestration overlays for dev/staging/prod. |
+| IaC / config management | Ansible or equivalent automation for provisioning, deployment, rollback, backup/restore. |
+| CI/CD | Automated lint, type checks, tests, contracts, security scans, build, release gates. |
+| Release management | Versioning, checklists, rollback plans, migration policies. |
 
-The REST API follows OpenAPI 3.1, versioned endpoints, consistent error responses, pagination, filtering and sorting, request validation, authentication and authorization, rate limiting, idempotency for applicable operations, and structured API documentation.
-7.2 API Source of Truth
+---
 
-contracts/openapi/openapi.yaml is the authoritative REST API contract. Generated clients and types are derived artifacts; they must not become independent manually maintained contract sources.
-7.3 Lansweeper Integration
+## 11. Security Architecture Reference
 
-The integration layer supports Lansweeper API connectivity, GraphQL data queries, webhook processing, asset discovery synchronization, delta and bulk synchronization, data normalization, duplicate detection, retry policies, rate-limit handling, integration health monitoring, synchronization history, and audit logging.
+| Layer | Control examples |
+|---|---|
+| Network/edge | TLS termination, routing controls, firewall/network segmentation. |
+| Application | RBAC/ABAC, tenant-aware authorization, validation, secure output handling. |
+| Data | RLS/tenant controls, least-privilege roles, encryption, audit logging. |
+| Secrets/supply chain | Managed secrets, rotation, SBOM/signing/provenance where adopted. |
+| Detection/response | Security logging, anomaly detection, incident response runbooks. |
 
-Key capabilities:
+Security controls are design targets until implemented, verified, and approved.
 
-    GraphQL Data API: Query detailed asset data from Lansweeper.
+---
 
-    Webhooks: Receive notifications for NEW_ASSET, UPDATED_ASSET, DELETED_ASSET, data source changes, and export completions.
+## 12. Testing Strategy Reference
 
-    Delta synchronization: Only fetch changed assets since the last sync.
+| Test type | Focus |
+|---|---|
+| Unit | Isolated domain/application/component behavior. |
+| Integration | Persistence, adapters, APIs, and service collaboration. |
+| Contract | OpenAPI/AsyncAPI and consumer/provider compatibility. |
+| Architecture | Dependency direction and module boundary rules. |
+| Security | Vulnerability scanning, configuration checks, and abuse cases. |
+| E2E | Critical user workflows across channels. |
+| Performance/resilience | Load, stress, failover, and recovery behavior. |
+| Accessibility/migration | WCAG-oriented checks and schema/data migration safety. |
 
-    Failure isolation: External integration failures must not corrupt internal asset records.
+Coverage targets in the source are examples, not NexusServiceCloud commitments.
 
-8. Event-Driven Architecture
+---
 
-The platform uses asynchronous processing where it improves reliability, scalability, and responsiveness.
+## 13. NexusServiceCloud Adoption Guidance
 
-Recommended capabilities:
-
-    Domain events and integration events.
-
-    Transactional Outbox pattern: Publish events reliably after database commits.
-
-    Idempotent event handlers.
-
-    Retry policies with exponential backoff.
-
-    Dead Letter Queues (DLQ) for failed events.
-
-    Event versioning and schema evolution.
-
-    Message monitoring and alerting.
-
-    Event processing audit trails.
-
-RabbitMQ is optional; introduce it when messaging requirements justify it. Redis may be sufficient for simpler Celery workloads.
-9. Design System
-
-The design system provides a consistent visual foundation across web and mobile applications.
-9.1 Components
-
-Color palette, typography, spacing, sizing, border radius, shadows, breakpoints, z-index, motion, themes (light, dark, high-contrast), icons, reusable components, UI patterns, and accessibility standards.
-9.2 Single Source of Truth
-
-design-system/tokens/*.json is the authoritative source for design tokens. CSS variables, TypeScript token definitions, and other supported outputs are generated from these files. Duplicate independent token definitions are prohibited.
-10. DevOps and Infrastructure Architecture
-
-The DevOps architecture is based on containerization, automation, repeatable deployments, and centralized infrastructure management.
-10.1 Docker
-
-Docker packages application components into reproducible container images.
-
-Expected services:
-
-    Backend API (Django + Gunicorn/Uvicorn)
-
-    Frontend application (Next.js)
-
-    Celery worker
-
-    Celery scheduler (beat)
-
-    PostgreSQL
-
-    Redis
-
-    RabbitMQ (when required)
-
-    Traefik
-
-    Observability stack (Prometheus, Loki, Tempo, Grafana, OpenTelemetry Collector)
-
-Production container standards:
-
-    Non-root execution where possible.
-
-    Health checks for every service.
-
-    Resource limits (CPU, memory).
-
-    Persistent storage for stateful services.
-
-    Explicit image versions (no latest tags).
-
-    Secure environment configuration via secrets.
-
-    Structured logging to stdout/stderr.
-
-    Minimal production images (multi-stage builds, distroless where feasible).
-
-10.2 Docker Compose
-
-Docker Compose is the primary service orchestration mechanism for development, staging, and initial production deployments.
-
-Compose file structure:
-
-    compose.yaml: Base service definitions.
-
-    compose.dev.yaml: Development overrides (hot reload, debug ports, seed data).
-
-    compose.staging.yaml: Staging overrides (production-like settings, staging secrets).
-
-    compose.prod.yaml: Production overrides (resource limits, restart policies, production secrets).
-
-Service dependency management: Use depends_on with health checks; wait-for-dependencies.sh handles startup ordering.
-10.3 Observability Stack
-
-A Docker Compose-based observability stack provides production-grade metrics, logs, and traces without a SaaS bill:
-Component	Role
-OpenTelemetry Collector	Receives OTLP signals; routes traces to Tempo and logs to Loki
-Prometheus	Metrics storage and querying
-Grafana	Dashboards and visualization
-Loki	Log aggregation and querying
-Tempo	Distributed trace storage
-Alertmanager	Alert routing and deduplication
-
-The stack is deployable with a single make up command.
-10.4 Ansible
-
-Ansible handles server provisioning, configuration management, and application deployment.
-
-Playbooks:
-
-    bootstrap.yml: Initial server setup (users, SSH, packages).
-
-    hardening.yml: Security hardening (firewall, fail2ban, kernel parameters).
-
-    deploy.yml: Application deployment.
-
-    upgrade.yml: Rolling upgrades.
-
-    rollback.yml: Rollback to previous version.
-
-    backup.yml: Database and configuration backup.
-
-    restore.yml: Restore from backup.
-
-10.5 CI/CD Pipeline
-
-Jenkins LTS is the primary CI/CD engine, with GitHub Actions workflows as secondary automation.
-
-Pipeline stages:
-
-    Checkout and dependency installation.
-
-    Lint (Ruff for Python, ESLint for TypeScript).
-
-    Type check (mypy for Python, tsc --noEmit for TypeScript).
-
-    Unit tests (Pytest, Vitest).
-
-    Integration tests (Pytest with database).
-
-    Contract tests (OpenAPI and AsyncAPI validation).
-
-    Architecture tests (import-linter, dependency rules).
-
-    Security scans (Trivy, Gitleaks, OWASP dependency check).
-
-    Build container images.
-
-    Push to registry.
-
-    Deploy to staging/production via Ansible.
-
-    Smoke tests and health checks.
-
-Quality gates: All stages must pass before merge or deployment.
-11. Security Architecture
-11.1 Defense-in-Depth
-
-    Network: Traefik TLS termination, firewall rules, network segmentation.
-
-    Application: RBAC, tenant-aware authorization, input validation, output encoding.
-
-    Database: RLS, least-privilege roles, encryption at rest, audit logging.
-
-    Secrets: SOPS-encrypted secrets, no hardcoded credentials, rotation policies.
-
-    Supply chain: SBOM generation, image signing, provenance attestation.
-
-    Monitoring: Security event logging, anomaly detection, incident response runbooks.
-
-11.2 Tenant Isolation Verification
-
-Automated tests verify:
-
-    Cross-tenant reads return empty results.
-
-    Cross-tenant writes fail.
-
-    Aggregations and subqueries do not leak data.
-
-    Background jobs respect tenant context.
-
-    Administrative paths are audited.
-
-12. Testing Strategy
-Test Type	Tool	Scope
-Unit	Pytest, Vitest	Individual functions, classes, components
-Integration	Pytest	Database, external services, API
-Contract	Schemathesis, Dredd	OpenAPI/AsyncAPI compliance
-Architecture	import-linter	Module boundary violations
-Security	Bandit, Trivy, OWASP ZAP	Vulnerabilities, misconfigurations
-E2E	Playwright	User workflows
-Performance	k6	Load, stress, spike tests
-Resilience	Chaos Toolkit	Failure injection
-Accessibility	axe-core	WCAG compliance
-Migration	Pytest	Schema migrations up/down
-
-Coverage targets: Backend ≥ 85%, frontend ≥ 80%, critical paths ≥ 95%.
-13. Operations and Runbooks
-13.1 Runbooks
-
-    Incident management: Severity levels, escalation paths, communication templates.
-
-    Backup and restore: Database backup schedule, restore procedures, verification.
-
-    Disaster recovery: RTO/RPO targets, failover procedures, post-recovery validation.
-
-    Capacity planning: Metrics to monitor, scaling triggers, resource forecasting.
-
-    Database operations: Migration procedures, index maintenance, vacuum/analyze schedules.
-
-    Certificate renewal: Automated renewal via Traefik/Let's Encrypt; manual fallback.
-
-    Dependency updates: Dependabot/Renovate policies, security patch SLAs.
-
-13.2 Service Catalog
-
-A service catalog documents all platform services, owners, SLAs, dependencies, and runbook links.
-14. Release Management
-
-    Versioning: Semantic Versioning (SemVer).
-
-    Release checklist: All tests pass, security scans clean, documentation updated, migration tested, rollback plan documented.
-
-    Rollback policy: Database migrations must be reversible; application rollback via previous container image.
-
-    Migration policy: Forward-only migrations with tested rollback scripts; no destructive migrations without backup verification.
-
-15. Recommendations for Implementation
-
-    Start with modular monolith: Avoid microservice complexity until scalability demands extraction.
-
-    Implement RLS from day one: Retrofit is significantly harder than initial implementation.
-
-    Establish CI/CD early: Quality gates prevent architectural drift.
-
-    Instrument before optimizing: Deploy observability stack with the first production release.
-
-    Document decisions via ADRs: Every architectural choice recorded with context and consequences.
-
-    Automate tenant isolation testing: Cross-tenant leakage is a critical security incident.
-
-    Use contract-first API design: Generated clients eliminate drift between frontend and backend.
-
-    Centralize design tokens: Visual consistency across web and mobile from a single source.
+1. **Preserve meaning, adapt scope:** reuse structural patterns, not NexusAsset business scope.
+2. **Rename contexts deliberately:** use `nsc_*` bounded contexts aligned to service management.
+3. **Keep contracts authoritative:** do not let generated artifacts replace source contracts.
+4. **Record decisions:** create NexusServiceCloud ADRs for stack, tenancy, integration, and operational choices.
+5. **Prove before claiming:** tests, scans, runbooks, and production controls must be evidenced before readiness claims.
+6. **Use this file as reference:** treat it as an input to design governance, not an implementation checklist already completed.

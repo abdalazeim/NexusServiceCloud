@@ -1,3 +1,27 @@
+# Architecture Reference — Repository Structure Tree
+
+> Document ID: NSC-REF-ARCH-TREE-01  
+> Version: 1.1 (formatted)  
+> Date: 2026-11-09  
+> Status: Preserved reference input, professionally formatted for NexusServiceCloud  
+> Source context: NexusAsset Cloud reference repository tree
+
+## Purpose
+
+This file preserves a reference repository structure tree used during NexusServiceCloud analysis and design. It is formatted for readability and traceability. It does **not** describe the current NexusServiceCloud implementation state, and it does **not** create or claim the existence of the listed files/directories in this repository.
+
+## Usage Notes
+
+| Note | Meaning |
+|---|---|
+| Reference-only | The tree is a blueprint/reference, not a generated project structure. |
+| NexusAsset context | The root name `nexusasset-cloud/` and some paths reflect the source reference architecture. |
+| NexusServiceCloud adaptation | NexusServiceCloud may reuse organizational ideas (separation of concerns, governance, contracts, quality gates) without copying NexusAsset domain scope or integrations. |
+| No execution claim | Presence in this document does not imply runnable code, infrastructure, CI/CD, or production readiness. |
+
+## Reference Repository Tree
+
+```text
 nexusasset-cloud/
 │
 ├── README.md
@@ -54,7 +78,8 @@ nexusasset-cloud/
 │   │
 │   ├── adr/
 │   │   ├── README.md
-│   │   └── templates/adr-template.md
+│   │   └── templates/
+│   │       └── adr-template.md
 │   │
 │   ├── standards/
 │   │   ├── api-standards.md
@@ -124,11 +149,9 @@ nexusasset-cloud/
 │   └── 20-final-audit.md
 │
 ├── platform/
-│   │
 │   ├── backend/
 │   │   ├── manage.py
 │   │   ├── pyproject.toml
-│   │   │
 │   │   ├── config/
 │   │   │   ├── settings/
 │   │   │   │   ├── __init__.py
@@ -142,7 +165,6 @@ nexusasset-cloud/
 │   │   │   ├── wsgi.py
 │   │   │   ├── celery.py
 │   │   │   └── logging.py
-│   │   │
 │   │   ├── contexts/
 │   │   │   ├── core/
 │   │   │   ├── accounts/
@@ -159,7 +181,6 @@ nexusasset-cloud/
 │   │   │   ├── audit/
 │   │   │   ├── reporting/
 │   │   │   └── compliance/
-│   │   │
 │   │   ├── shared/
 │   │   │   ├── kernel/
 │   │   │   ├── exceptions/
@@ -168,7 +189,6 @@ nexusasset-cloud/
 │   │   │   ├── tenant_context/
 │   │   │   ├── observability/
 │   │   │   └── utilities/
-│   │   │
 │   │   └── tests/
 │   │       ├── unit/
 │   │       ├── integration/
@@ -183,7 +203,6 @@ nexusasset-cloud/
 │   │   ├── components.json
 │   │   ├── package.json
 │   │   ├── public/
-│   │   │
 │   │   └── src/
 │   │       ├── app/
 │   │       │   ├── (public)/
@@ -213,9 +232,7 @@ nexusasset-cloud/
 │   │       │   ├── error.tsx
 │   │       │   ├── not-found.tsx
 │   │       │   └── loading.tsx
-│   │       │
 │   │       ├── proxy.ts
-│   │       │
 │   │       ├── components/
 │   │       │   ├── ui/
 │   │       │   ├── layout/
@@ -225,7 +242,6 @@ nexusasset-cloud/
 │   │       │   ├── feedback/
 │   │       │   ├── navigation/
 │   │       │   └── providers/
-│   │       │
 │   │       ├── features/
 │   │       │   ├── auth/
 │   │       │   ├── assets/
@@ -237,7 +253,6 @@ nexusasset-cloud/
 │   │       │   ├── audit/
 │   │       │   ├── compliance/
 │   │       │   └── reporting/
-│   │       │
 │   │       ├── lib/
 │   │       │   ├── api/
 │   │       │   ├── auth/
@@ -246,7 +261,6 @@ nexusasset-cloud/
 │   │       │   ├── i18n/
 │   │       │   ├── telemetry/
 │   │       │   └── utilities/
-│   │       │
 │   │       ├── hooks/
 │   │       ├── stores/
 │   │       ├── types/
@@ -280,15 +294,12 @@ nexusasset-cloud/
 │   │   ├── schemas/
 │   │   ├── paths/
 │   │   └── versions/
-│   │
 │   ├── asyncapi/
 │   │   └── asyncapi.yaml
-│   │
 │   ├── events/
 │   │   ├── asset-events/
 │   │   ├── tenant-events/
 │   │   └── integration-events/
-│   │
 │   ├── webhooks/
 │   └── generated/
 │       ├── typescript/
@@ -297,138 +308,38 @@ nexusasset-cloud/
 │
 ├── design-system/
 │   ├── tokens/
-│   │   ├── colors.json
-│   │   ├── typography.json
-│   │   ├── spacing.json
-│   │   ├── sizing.json
-│   │   ├── radius.json
-│   │   ├── shadows.json
-│   │   ├── breakpoints.json
-│   │   ├── z-index.json
-│   │   └── motion.json
-│   │
 │   ├── assets/
-│   │   ├── fonts/
-│   │   ├── icons/
-│   │   ├── images/
-│   │   └── illustrations/
-│   │
 │   ├── components/
 │   ├── patterns/
-│   │
 │   ├── themes/
-│   │   ├── light/
-│   │   ├── dark/
-│   │   └── high-contrast/
-│   │
 │   ├── storybook/
 │   └── docs/
-│       ├── tokens.md
-│       ├── components.md
-│       ├── patterns.md
-│       ├── accessibility.md
-│       ├── rtl-ltr.md
-│       ├── theming.md
-│       └── ai-coding-rules.md
 │
 ├── infrastructure/
 │   ├── docker/
-│   │   ├── backend.Dockerfile
-│   │   ├── frontend.Dockerfile
-│   │   ├── worker.Dockerfile
-│   │   ├── scheduler.Dockerfile
-│   │   └── security-scanning.Dockerfile
-│   │
 │   ├── traefik/
-│   │   ├── traefik.yml
-│   │   ├── dynamic/
-│   │   ├── tls/
-│   │   └── middlewares/
-│   │
 │   ├── postgres/
-│   │   ├── config/
-│   │   ├── init/
-│   │   ├── extensions/
-│   │   ├── rls/
-│   │   ├── roles/
-│   │   ├── migrations/
-│   │   └── backup/
-│   │
 │   ├── redis/
-│   │   ├── config/
-│   │   └── policies/
-│   │
 │   ├── rabbitmq/
-│   │   └── config/
-│   │
 │   ├── storage/
-│   │   └── object-storage/
-│   │
 │   └── scripts/
-│       ├── health-check.sh
-│       ├── wait-for-dependencies.sh
-│       └── container-entrypoint.sh
 │
 ├── deployment/
 │   ├── ansible/
-│   │   ├── ansible.cfg
-│   │   ├── inventories/
-│   │   │   ├── dev/
-│   │   │   ├── staging/
-│   │   │   └── production/
-│   │   ├── playbooks/
-│   │   │   ├── bootstrap.yml
-│   │   │   ├── hardening.yml
-│   │   │   ├── deploy.yml
-│   │   │   ├── upgrade.yml
-│   │   │   ├── rollback.yml
-│   │   │   ├── backup.yml
-│   │   │   └── restore.yml
-│   │   └── roles/
-│   │       ├── common/
-│   │       ├── docker/
-│   │       ├── firewall/
-│   │       ├── traefik/
-│   │       ├── monitoring/
-│   │       ├── application/
-│   │       └── backup/
-│   │
 │   ├── ci-cd/
-│   │   ├── Jenkinsfile
-│   │   ├── jenkins/
-│   │   │   ├── casc/
-│   │   │   ├── shared-library/
-│   │   │   └── agents/
-│   │   ├── github/workflows/
-│   │   ├── quality-gates/
-│   │   └── release/
-│   │
 │   ├── environments/
-│   │   ├── dev/
-│   │   ├── staging/
-│   │   └── production/
-│   │
 │   └── release-management/
-│       ├── versioning.md
-│       ├── release-checklist.md
-│       ├── rollback-policy.md
-│       └── migration-policy.md
 │
 ├── security/
 │   ├── threat-model/
 │   ├── policies/
 │   ├── iam/
 │   ├── secrets-management/
-│   │   ├── sops/
-│   │   └── templates/
 │   ├── encryption/
 │   ├── certificates/
 │   ├── access-control/
 │   ├── tenant-isolation/
 │   ├── supply-chain/
-│   │   ├── sbom/
-│   │   ├── image-signing/
-│   │   └── provenance/
 │   ├── scans/
 │   ├── compliance/
 │   ├── owasp/
@@ -437,15 +348,10 @@ nexusasset-cloud/
 ├── observability/
 │   ├── prometheus/
 │   ├── grafana/
-│   │   ├── dashboards/
-│   │   └── provisioning/
 │   ├── loki/
 │   ├── tempo/
 │   ├── alertmanager/
 │   ├── otel/
-│   │   ├── collector/
-│   │   ├── traces/
-│   │   └── metrics/
 │   ├── alert-rules/
 │   ├── slo-sli/
 │   └── synthetic-monitoring/
@@ -505,3 +411,17 @@ nexusasset-cloud/
     ├── legacy/
     ├── snapshots/
     └── archive-index.md
+```
+
+## NexusServiceCloud Mapping (Indicative)
+
+This table maps reference ideas to the current NexusServiceCloud documentation package where applicable.
+
+| Reference area | NexusServiceCloud equivalent / note |
+|---|---|
+| `project-meta/` | `project-meta/` exists for documentation policy/governance records. |
+| `docs/00..22` style segmentation | `docs/00-overview`..`14-appendices` plus `documentation-audit` are used. |
+| `prompts/` | `prompts/` exists for review/control instructions. |
+| `platform/*` target implementation tree | Not present as runnable implementation in this package; future blueprint only. |
+| `contracts/`, `security/`, `ops/`, `quality/` | Covered conceptually in design docs; not claimed as implemented assets. |
+| NexusAsset/Lansweeper contexts | Must be replaced by NexusServiceCloud contexts (`nsc_*`) in future implementation design. |
