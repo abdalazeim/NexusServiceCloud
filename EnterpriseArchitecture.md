@@ -1,14 +1,14 @@
-# Enterprise Architecture Reference
+# Enterprise Architecture
 
-> Document ID: EA-REF-01
+> Document ID: EA-ARCH-01
 > Version: 1.0
 > Date: 2026-11-09
-> Status: Reference Architecture — Not Approved for Implementation
+> Status: Reference Architecture
 > Owner: Architecture Review
 
 ## 1. Purpose
 
-This document describes the enterprise architecture reference derived from the NexusAsset CloudMonorepo. It is used as a reference for organizing the NexusServiceCloud documentation. It does NOT authorize implementation of asset discovery, Lansweeper integration, or pricing plans.
+This document describes the enterprise architecture reference derived from the NexusAsset Cloud Monorepo. It is used as a reference for organizing the NexusServiceCloud documentation.
 
 ## 2. Architecture Principles
 
@@ -22,6 +22,7 @@ This document describes the enterprise architecture reference derived from the N
 ### 2.2 Bounded Contexts
 
 Each bounded context has:
+
 - Clear responsibility boundaries
 - Explicit dependencies
 - Defined interfaces
@@ -37,24 +38,28 @@ Each bounded context has:
 ## 3. Reference Architecture Layers
 
 ### 3.1 Presentation Layer
+
 - Web interface
 - Mobile interface
 - API consumers
 - BFF (Backend for Frontend)
 
 ### 3.2 Application Layer
+
 - Use cases
 - Business rules
 - Workflow orchestration
 - Domain events
 
 ### 3.3 Domain Layer
+
 - Bounded contexts
 - Domain models
 - Domain services
 - Domain events
 
 ### 3.4 Infrastructure Layer
+
 - Data storage
 - Messaging
 - External integrations
@@ -63,12 +68,14 @@ Each bounded context has:
 ## 4. Governance Model
 
 ### 4.1 Decision Records
+
 - Architecture Decision Records (ADRs)
 - Traceability matrices
 - Risk registers
 - Practice alignment documents
 
 ### 4.2 Documentation Standards
+
 - DOC-00 through DOC-18 numbering
 - Arabic-primary language convention
 - English technical identifiers
