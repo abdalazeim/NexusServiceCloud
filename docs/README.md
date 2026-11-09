@@ -9,14 +9,17 @@
 - 04-testing: [سيناريوهات التحقق والقبول المستقبلية](04-testing/01-acceptance-plan.md).
 - 05-deployment: [تصميم النشر والترحيل والتعافي](05-deployment/01-deployment-recovery.md).
 - 06-operations: [دليل التشغيل والحوادث ومؤشرات الخدمة](06-operations/01-operations.md).
-- 07-security: [الصلاحيات والعزل والتهديدات](07-security/01-security-tenancy.md).
-- 08-mobile: [نطاق الهاتف والعمل دون اتصال](08-mobile/01-mobile-scope.md).
-- 09-api: [كتالوج العمليات والعقد المفاهيمي](09-api/01-api-catalog.md).
-- 10-design-system: [خريطة الشاشات وتجربة الاستخدام](10-design-system/01-ux-navigation.md).
-- 11-governance: [القرارات والمخاطر](11-governance/01-decisions-risks.md)، [التتبع](11-governance/02-traceability.md)، [مواءمة الممارسات](11-governance/03-practice-alignment.md).
-- 12-adr: [قرارات المعمارية المقترحة](12-adr/README.md).
-- 13-diagrams: [مخططات السياق والتدفق والبيانات](13-diagrams/01-system-diagrams.md).
-- 14-appendices: [المصادر والمصطلحات](14-appendices/01-sources-glossary.md).
+- 07-security: [تصميم الأمان — الصلاحيات، العزل، التهديدات، التدقيق](00-overview/07-security-design.md).
+- 08-mobile: [استراتيجية الهاتف والعمل دون اتصال](00-overview/08-mobile-strategy.md).
+- 09-api: [تصميم واجهات البرمجة — العقد المفاهيمي، النقاط الطرفية](00-overview/09-api-design.md).
+- 10-design-system: [نظام التصميم وتجربة الاستخدام — خريطة الشاشات والتNavigation](00-overview/10-design-system-ux.md).
+- 11-governance: [الحوكمة والتسليم المستمر — القرارات، المخاطر، التتبع، CI/CD](00-overview/11-governance-devops-cicd.md).
+- 12-adr: [قرارات المعمارية المقترحة ADR-001..020](00-overview/12-adrs.md).
+- 13-diagrams: [مخططات السياق والتدفق والبيانات (C4 و ERD)](00-overview/13-diagrams-models.md).
+- 14-appendices: [حماية البيانات والخصوصية GDPR، الملاحق والمصفوفات، القاموس](00-overview/14-data-protection-privacy.md)، [00-overview/15-appendices-matrices.md].
+- 16-operations: [النشر والتشغيل والتعافي](00-overview/16-deployment-operations-recovery.md).
+- 17-integrations: [التكاملات والأحداث — الموصلات، ويب هوكس، الأتمتة](00-overview/17-integrations-events.md).
+- 18-delivery: [مراجعة التسليم النهائي والخاتمة](00-overview/18-delivery-review-conclusion.md).
 - documentation-audit: [نطاق تدقيق التسليم](documentation-audit/01-delivery-review.md).
 
 المراجع المشتركة: [ضبط الوثائق](../project-meta/01-documentation-policy.md)، [سجل التغييرات](../project-meta/CHANGELOG.md)، [دليل مراجعة التحليل](../prompts/README.md).
