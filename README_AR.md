@@ -17,5 +17,5 @@
 5. [المعمارية وحدود الوحدات](docs/02-design/01-architecture.md).
 6. [نمود البيانات وقواعد الاتساق](docs/02-design/02-data-model.md).
 7. [دورات الحياة والwilfات](docs/02-design/03-workflows.md) و[حساب SLA و OLA](docs/02-design/04-service-levels.md).
-8. [خريطة الوثائق الكاملة](docs/README.md).
+8. [خريطة الوثيق الكاملة](docs/README.md).
 9. [مصفوفة التتبع](docs/11-governance/02-traceability.md) و[القرارات والأسئلة المفتوحة](docs/11-governance/01-decisions-risks.md).
